@@ -1,9 +1,10 @@
 import { Button } from '@material-ui/core'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { fetchPostsStart } from '../../redux/posts/posts.actions'
 
 function PostDirectory(props) {
   const { posts, fetchPostsStart, isFetching } = props
+  const dispatch = useDispatch()
   return (
     <div>
       <Button variant="contained" onClick={() => fetchPostsStart()}>

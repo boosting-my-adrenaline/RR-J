@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import './index.css'
 import App from './App'
-// import reportWebVitals from './reportWebVitals'
+import { Router } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -15,5 +15,3 @@ render(
   </React.StrictMode>,
   document.getElementById('root')
 )
-
-// reportWebVitals()

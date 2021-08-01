@@ -1,0 +1,4 @@
+export const SWActionTypes = {
+  FETCH_PLANETS: 'FETCH_PLANETS',
+  FETCH_PEOPLE: 'FETCH_PEOPLE',
+}

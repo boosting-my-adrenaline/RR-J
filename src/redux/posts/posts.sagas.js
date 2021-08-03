@@ -9,11 +9,14 @@ import {
 import axios from '../../utils/axios'
 
 export function* fetchPostsStartAsync() {
-  console.log('test')
+  console.log('fetchPostsStartAsync')
   try {
     const Posts = yield axios.get('Posts').then((res) => res.data)
+    console.log(Posts)
     yield put(fetchPostsSuccess(Posts))
+    console.log('put posts')
   } catch (error) {
+    console.log('error')
     yield put(fetchPostsFailure(error.message))
   }
 }

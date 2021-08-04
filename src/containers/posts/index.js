@@ -2,28 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { Typography, Grid, Paper, Box } from '@material-ui/core'
 import { Pagination } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
-import blue from '@material-ui/core/colors'
 
 import {
   fetchPostsStart,
+  deletePostStart,
   clearPostMessages,
 } from '../../redux/posts/posts.actions'
 import { connect } from 'react-redux'
 import { useSnackbar } from 'notistack'
-import { createStructuredSelector } from 'reselect'
+// import { createStructuredSelector } from 'reselect'
+// import {
+//   selectPostsData,
+//   selectPostFetchStatus,
+//   selectPostsErrorMessage,
+// } from '../../redux/posts/posts.selectors'
 import theme from '../../utils/theme'
-import {
-  selectPostsData,
-  selectPostFetchStatus,
-  selectPostsErrorMessage,
-} from '../../redux/posts/posts.selectors'
 import { DeleteForeverRounded } from '@material-ui/icons'
+import AddItemModal from './components/add-modal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     paddingRight: theme.spacing(4),
     paddingLeft: theme.spacing(4),
+  },
+  container: {
+    alignItems: 'stretch',
   },
   postImage: {
     height: '20vmin',
@@ -32,26 +36,34 @@ const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(2),
     position: 'relative',
+    // height: '90%',
   },
   delete: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    top: '10px',
+    left: '10px',
     cursor: 'pointer',
   },
   pagination: {
-    dispaly: 'flex',
+    display: 'flex',
     justifyContent: 'center',
     marginLeft: 'auto',
     paddingBottom: theme.spacing(2),
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(6),
+  },
+  button: {
+    marginTop: theme.spacing(2),
+  },
+  length: {
+    fontSize: '26px',
+    color: 'blue',
   },
 }))
 
 const PostsContainer = ({
   fetchPostsStart,
+  deletePostStart,
   posts,
-  clearPostMessages,
   errorMessage,
   isFetching,
 }) => {
@@ -88,17 +100,27 @@ const PostsContainer = ({
       <Typography variant={'h2'} component={'h1'}>
         Posts <strong className={classes.length}>[{posts.length}]</strong>
       </Typography>
-      {/* ////add item modal */}
-      <Grid container justify="center" alignItems="center" spacing={4}>
+      <AddItemModal />{' '}
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        spacing={4}
+        className={classes.container}
+      >
         {pagePosts.length > 1
           ? pagePosts.map((each) => (
               <Grid item xs={10} sm={5} md={3} key={each.id}>
-                <Paper className={classes.card} elevation={3}>
-                  id: {each.id} UsedId: {each.userId}
+                <Paper className={classes.card} elevation={18}>
+                  <Typography>
+                    {' '}
+                    id: {each.id} userId: {each.userId}
+                  </Typography>
+
                   <DeleteForeverRounded
                     color={'primary'}
                     className={classes.delete}
-                    // onClick={() => deletePostStart(each.id)}
+                    onClick={() => deletePostStart(each.id)}
                   />
                   <Typography>Title: {each.title}</Typography>
                   <Typography>Body: {each.body}</Typography>
@@ -129,6 +151,8 @@ const mapStateToProps = (state) => ({
   errorM: state.posts.errorMessage,
 })
 
-export default connect(mapStateToProps, { fetchPostsStart, clearPostMessages })(
-  PostsContainer
-)
+export default connect(mapStateToProps, {
+  fetchPostsStart,
+  deletePostStart,
+  clearPostMessages,
+})(PostsContainer)

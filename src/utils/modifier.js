@@ -12,3 +12,6 @@ export const addNewItem = (itemList, itemToAdd) => {
 export const deleteItem = (itemList, id) => {
   return itemList.filter((item) => item.id !== id)
 }
+
+export const newItemId = (itemList) =>
+  itemList.reduce((maxId, item) => Math.max(item.id, maxId), -1) + 1

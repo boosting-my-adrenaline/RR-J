@@ -13,7 +13,8 @@ export default createMuiTheme({
     tonalOffser: 0.2,
   },
   typography: {
-    fontFamily: ['"Fira Code,"Roboto","Courier" '].join(','),
+    // fontFamily: ['"Fira Code,"Roboto","Courier" '].join(','),
+    fontFamily: 'Courier',
     h3: {
       fontSize: '1.2rem',
       '@media (min-width:600px)': {

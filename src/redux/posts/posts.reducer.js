@@ -1,5 +1,9 @@
-import { FormatListNumbered, PostAdd } from '@material-ui/icons'
-import { addNewItem, deleteItem, updateItemDetails } from '../../utils/modifier'
+import {
+  addNewItem,
+  deleteItem,
+  updateItemDetails,
+  newItemId,
+} from '../../utils/modifier'
 import PostsActionTypes from './posts.types'
 
 const initialState = {
@@ -17,6 +21,7 @@ const postsReducer = (state = initialState, action) => {
         errorMessage: null,
         message: null,
       }
+
     case PostsActionTypes.FETCH_POSTS_START:
       return {
         ...state,
@@ -42,7 +47,10 @@ const postsReducer = (state = initialState, action) => {
     case PostsActionTypes.ADD_POST_SUCCESS:
       return {
         ...state,
-        data: addNewItem(state.data, action.payload),
+        data: addNewItem(state.data, {
+          ...action.payload,
+          id: newItemId(state.data),
+        }),
         isFetching: false,
       }
     case PostsActionTypes.ADD_POST_FAILURE:

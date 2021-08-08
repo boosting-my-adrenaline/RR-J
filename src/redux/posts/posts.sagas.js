@@ -1,4 +1,4 @@
-import { takeLatest, put } from '@redux-saga/core/effects'
+import { takeLatest, put, all } from '@redux-saga/core/effects'
 import PostsActionTypes from './posts.types'
 import {
   clearPostMessages,

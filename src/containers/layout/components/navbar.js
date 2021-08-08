@@ -15,17 +15,21 @@ import {
 import GitHubIcon from '@material-ui/icons/GitHub'
 import { Link as RouterLink } from 'react-router-dom'
 
+import SideBar from './side-bar'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: 'blue',
+    backgroundColor: 'rgba(230, 230, 255)',
+    // backgroundColor,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
-    color: 'white',
+    // color: 'white',
+    color: 'blue',
     fontFamily: 'courier',
     fontSize: '1.7em',
   },
@@ -43,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     background: 'none',
-    color: 'white',
+    // color: 'white',
+    color: 'blue',
+
     fontFamily: 'courier',
     fontSize: '1.5em',
     textDecoration: 'underline',
@@ -54,7 +60,7 @@ export default function Navigation() {
   const classes = useStyles()
 
   return (
-    <AppBar position="sticky" color="primary">
+    <AppBar position="sticky" className={classes.root}>
       <Toolbar>
         <Typography variant="h5" className={classes.title}>
           <Link to="/" color="inherit" component={RouterLink}>
@@ -64,7 +70,7 @@ export default function Navigation() {
         <Hidden smDown>
           <Paper className={classes.link} elevation={0}>
             <Link to="/posts" color="inherit" component={RouterLink}>
-              Posts
+              POSTS
             </Link>
           </Paper>
           <Box className={classes.links} component="div">
@@ -81,7 +87,9 @@ export default function Navigation() {
             </IconButton>
           </Box>
         </Hidden>
-        <Hidden mdUp></Hidden>
+        <Hidden mdUp>
+          <SideBar />
+        </Hidden>
       </Toolbar>
     </AppBar>
   )

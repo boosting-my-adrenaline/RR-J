@@ -1,21 +1,19 @@
 import React, { useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
-  makeStyles,
   Modal,
   Backdrop,
   Fade,
   Typography,
-  Box,
   Button,
   TextField,
+  Box,
+  Slide,
 } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import PostAddIcon from '@material-ui/icons/PostAdd'
 
-import { newItemId } from '../../../utils/modifier'
-import { addPostStart } from '../../../redux/posts/posts.actions'
+import { editPostStart } from '../../../redux/posts/posts.actions'
 import { connect } from 'react-redux'
-import { useSnackbar } from 'notistack'
+import EditIcon from '@material-ui/icons/Edit'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,28 +37,27 @@ const useStyles = makeStyles((theme) => ({
     margin: ' 10px 0',
   },
   add: {
-    height: 50,
+    height: 30,
     margin: theme.spacing(2),
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(1),
     zIndex: 1000,
-  },
-  addIcon: {
-    marginLeft: 5,
-    color: 'white',
   },
   button: {
     margin: '0 auto',
     marginTop: theme.spacing(2),
     fontSize: '1.2em',
   },
+  editIcon: {
+    marginLeft: 5,
+  },
 }))
 
-function AddItemModal({ addPostStart, posts }) {
+function EditItemModal({ post, editPostStart }) {
   const classes = useStyles()
+
   const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState('')
-  const [body, setBody] = useState('')
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const [title, setTitle] = useState(post.title)
+  const [body, setBody] = useState(post.body)
 
   const handleOpen = () => setOpen(true)
 
@@ -72,39 +69,19 @@ function AddItemModal({ addPostStart, posts }) {
 
   const handlePost = (event) => {
     event.preventDefault()
-
-    if (title.trim() === '' && body.trim() === '') {
-      enqueueSnackbar('Post is empty', {
-        variant: 'error',
-        autoHideDuration: 2500,
-      })
-
-      // handleClose()
-      // setBody('')
-      // setTitle('')
-      return
-    }
-
-    const data = { id: newItemId(posts), userId: 1, title, body }
-    addPostStart(data)
+    const data = { ...post, title, body }
+    editPostStart(data)
     handleClose()
-    setBody('')
-    setTitle('')
   }
 
   return (
     <>
-      <Button
-        onClick={handleOpen}
-        variant="contained"
-        color="primary"
-        className={classes.add}
-      >
-        Add{' '}
-        <PostAddIcon
+      <Button onClick={handleOpen} variant="contained" className={classes.add}>
+        Edit{' '}
+        <EditIcon
           color="primary"
           fontSize="small"
-          className={classes.addIcon}
+          className={classes.editIcon}
         />
       </Button>
       <Modal
@@ -115,9 +92,9 @@ function AddItemModal({ addPostStart, posts }) {
         BackdropComponent={Backdrop}
         BackdropProps={{ timeout: 500 }}
       >
-        <Fade in={open}>
+        <Slide in={open}>
           <Box component="div" className={classes.form}>
-            <Typography variant="h4">New Post</Typography>
+            <Typography variant="h4">Edit</Typography>
             <form onSubmit={handlePost}>
               <TextField
                 label="Title"
@@ -142,17 +119,14 @@ function AddItemModal({ addPostStart, posts }) {
                 variant="contained"
                 color="secondary"
               >
-                Create
+                Submit
               </Button>
             </form>
           </Box>
-        </Fade>
+        </Slide>
       </Modal>
     </>
   )
 }
-const mapStateToProps = (state) => ({
-  posts: state.posts.data,
-})
 
-export default connect(mapStateToProps, { addPostStart })(AddItemModal)
+export default connect(null, { editPostStart })(EditItemModal)

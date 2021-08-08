@@ -1,9 +1,11 @@
 import React, { Suspense, lazy } from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
+import LoadingScreen from './containers/extra/loading-screen'
 import Layout from './containers/layout'
+import Home from './containers/landing'
 
 export const renderRoutes = (routes = []) => (
-  <Suspense fallback={<h2>loading screen...</h2>}>
+  <Suspense fallback={<LoadingScreen />}>
     <Switch>
       {routes.map((route, i) => {
         const Component = route.component
@@ -29,10 +31,12 @@ export const renderRoutes = (routes = []) => (
 
 const routes = [
   {
-    exatch: true,
+    exact: true,
     path: '/posts',
     component: lazy(() => import('./containers/posts')),
   },
+  { exact: true, path: '/', component: Home },
+  { exact: true, path: '/loading-screen', component: LoadingScreen },
 ]
 
 export default routes

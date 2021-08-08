@@ -52,10 +52,12 @@ export const deletePostStart = (payload) => ({
   type: PostsActionTypes.DELETE_POST_START,
   payload,
 })
+
 export const deletePostSuccess = (id) => ({
   type: PostsActionTypes.DELETE_POST_SUCCESS,
   payload: id,
 })
+
 export const deletePostFailure = (errorMessage) => ({
   type: PostsActionTypes.DELETE_POST_FAILURE,
   payload: errorMessage,
